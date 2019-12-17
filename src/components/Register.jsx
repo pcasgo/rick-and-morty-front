@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import useForm from "react-hook-form";
-import { login } from './utils';
-import { Link } from 'react-router-dom';
+import useForm from 'react-hook-form';
 
-const SignIn = (props) => {
+const Register = (props) => {
 
     const { register, handleSubmit } = useForm({
         defaultValues: {
@@ -12,24 +10,28 @@ const SignIn = (props) => {
         }
     });
 
+    const [state, setState] = useState('');
+
     const onSubmit = data => {
-        fetch('http://localhost:3500/login', {
+        fetch('http://localhost:3500/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
         }).then(resolve => {
             return resolve.json();
-        }).then(auth => {
-            if (auth.status === 200)
-                login(auth.token);
-                props.history.push('/characters');
+        }).then(response => {
+            console.log('response: ', response);
+            if (response.status !== 201) {
+                props.history.push('/signin');
+            } else {
+                setState(response.message);
+            }
         });
-        props.history.push('/signin');
     };
 
     return (
-        <div className="Login">
-            <h2>Login</h2>
+        <div className="Register">
+            <h2>Registro de usuario</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
                     <label htmlFor="user">Usuario</label>
@@ -40,10 +42,10 @@ const SignIn = (props) => {
                     <input type="password" name="password" placeholder="Contraseña" ref={register} />
                 </div>
                 <input type="submit" />
-                <Link to="/register">Registrarse</Link>
+                <label>{state}</label>
             </form>
         </div>
     );
-};
+}
 
-export default SignIn;
+export default Register;
