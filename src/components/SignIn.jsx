@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useForm from "react-hook-form";
+import { login } from './utils';
 
 const SignIn = (props) => {
 
@@ -18,11 +19,11 @@ const SignIn = (props) => {
         }).then(resolve => {
             return resolve.json();
         }).then(auth => {
-            console.log('auth: ', auth);
-            auth.status === 200 ?
-                props.history.push('/dashboard') :
-                props.history.push('/home');
+            if (auth.status === 200)
+                login(auth.token);
+                props.history.push('/characters');
         });
+        props.history.push('/signin');
     };
 
     return (
