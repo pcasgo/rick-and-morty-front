@@ -13,7 +13,7 @@ function App() {
         <Switch>
           <PublicRoute restricted={false} component={Home} path="/" exact />
           <PublicRoute restricted={false} component={Register} path="/register" exact />
-          <PublicRoute restricted={true} component={SignIn} path="/signin" exact />
+          <PublicRoute restricted={true} component={SignIn} path="/login" exact />
           <PrivateRoute restricted={true} component={Characters} path="/characters" exact />
         </Switch>
       </BrowserRouter>

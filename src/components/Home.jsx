@@ -25,7 +25,7 @@ class Home extends Component {
                 <h1>Home</h1>
                 {this.state.isLogin ? 
                     <button onClick={() => this.handleLogout()}>Cerrar sesion</button>
-                    : <Link to="/signin">Login</Link>
+                    : <Link to="/login">Login</Link>
                 }
             </div>
         );
