@@ -10,9 +10,10 @@ const Register = (props) => {
         }
     });
 
-    const [state, setState] = useState('');
+    const [message, setMessage] = useState('');
 
     const onSubmit = data => {
+        setMessage('');
         fetch('http://localhost:3500/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -20,10 +21,10 @@ const Register = (props) => {
         }).then(resolve => {
             return resolve.json();
         }).then(response => {
-            if (response.status !== 201) {
+            if (response.status === 201) {
                 props.history.push('/login');
             } else {
-                setState(response.message);
+                setMessage(response.message);
             }
         });
     };
@@ -55,12 +56,12 @@ const Register = (props) => {
                                         ref={register}
                                     />
                                 </div>
+                                { message !== '' ? <label>{message}</label> : ''}
                                 <button 
                                     type="submit" 
                                     className="btn btn-primary btn-block">
                                     Aceptar
                                 </button>
-                                <label>{state}</label>
                             </form>
                         </div>
                     </div>

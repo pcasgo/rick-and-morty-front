@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useForm from "react-hook-form";
 import { login } from "./utils";
 import { Link } from "react-router-dom";
@@ -11,7 +11,10 @@ const SignIn = props => {
         }
     });
 
+    const [message, setMessage] = useState('');
+
     const onSubmit = data => {
+        setMessage('');
         fetch("http://localhost:3500/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -21,8 +24,13 @@ const SignIn = props => {
                 return resolve.json();
             })
             .then(auth => {
-                if (auth.status === 200) login(auth.token);
-                props.history.push("/characters");
+                console.log('auth: ', auth);
+                if (auth.status === 200) {
+                    login(auth.token);
+                    props.history.push("/characters");
+                } else {
+                    setMessage(auth.message);
+                }
             });
         props.history.push("/login");
     };
@@ -54,8 +62,9 @@ const SignIn = props => {
                                         ref={register}
                                     />
                                 </div>
-                                <button 
-                                    type="submit" 
+                                {message !== '' ? <label>{message}</label> : ''}
+                                <button
+                                    type="submit"
                                     className="btn btn-primary btn-block">
                                     Ingresar
                                 </button>

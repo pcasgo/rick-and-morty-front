@@ -102,7 +102,6 @@ const Characters = (props) => {
                     ) : status === 'ERROR' ? <div>{error}</div>
                             : <CircularProgress size={50} />
                 }
-                
             </div>
         </div>
     );
