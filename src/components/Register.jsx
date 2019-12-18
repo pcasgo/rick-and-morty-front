@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useForm from 'react-hook-form';
+import { Link } from "react-router-dom";
 
 const Register = (props) => {
 
@@ -11,6 +12,7 @@ const Register = (props) => {
     });
 
     const [message, setMessage] = useState('');
+    const [status, setStatus] = useState('');
 
     const onSubmit = data => {
         setMessage('');
@@ -21,11 +23,10 @@ const Register = (props) => {
         }).then(resolve => {
             return resolve.json();
         }).then(response => {
-            if (response.status === 201) {
-                props.history.push('/login');
-            } else {
-                setMessage(response.message);
-            }
+            console.log(response);
+            setMessage(response.message);
+            setStatus(response.status);
+            console.log(message, status);
         });
     };
 
@@ -56,9 +57,13 @@ const Register = (props) => {
                                         ref={register}
                                     />
                                 </div>
-                                { message !== '' ? <label>{message}</label> : ''}
-                                <button 
-                                    type="submit" 
+                                {message !== '' ? <label>{message}</label> : ''}
+                                {status === 201 ? 
+                                    <Link className="btn btn-secondary btn-block" to="/login">Ingresar</Link>
+                                    : ''
+                                }
+                                <button
+                                    type="submit"
                                     className="btn btn-primary btn-block">
                                     Aceptar
                                 </button>
